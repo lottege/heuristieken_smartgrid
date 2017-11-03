@@ -29,3 +29,5 @@ if __name__ == '__main__':
 
 
 print("x-coordinate: {}\ny-coordinate: {}\noutput: {}".format(house_list[5].pos_x, house_list[5].pos_y, house_list[5].output))
+
+#dit is een test
