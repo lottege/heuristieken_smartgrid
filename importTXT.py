@@ -29,9 +29,5 @@ if __name__ == '__main__':
             battery = Battery(parts[0].strip()[1:], parts[1].strip(), row[1].strip())
             battery_list.append(battery)
 
-
-print("1: x-pos: {}, y-pos: {}, output: {}".format(battery_list[0].pos_x, battery_list[0].pos_y, battery_list[0].capacity))
-print("2: x-pos: {}, y-pos: {}, output: {}".format(battery_list[1].pos_x, battery_list[1].pos_y, battery_list[1].capacity))
-print("3: x-pos: {}, y-pos: {}, output: {}".format(battery_list[2].pos_x, battery_list[2].pos_y, battery_list[2].capacity))
-print("4: x-pos: {}, y-pos: {}, output: {}".format(battery_list[3].pos_x, battery_list[3].pos_y, battery_list[3].capacity))
-print("5: x-pos: {}, y-pos: {}, output: {}".format(battery_list[4].pos_x, battery_list[4].pos_y, battery_list[4].capacity))
+for i in range(Battery.number):
+    print("1: x-pos: {}, y-pos: {}, capacity: {}".format(battery_list[i].pos_x, battery_list[i].pos_y, battery_list[i].capacity))
