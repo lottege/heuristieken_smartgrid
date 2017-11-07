@@ -1,7 +1,6 @@
 '''
 / this code can read CSV files and makes house objects with the
 / information from the rows
-/
 '''
 
 import csv
