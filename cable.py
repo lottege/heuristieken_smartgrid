@@ -7,7 +7,7 @@
 
 import experimentimportTXT
 
-print("hallo")
+
 class Cable:
     def __init__(self, pos_x, pos_y):
         self.pos_x = pos_x
@@ -20,30 +20,30 @@ batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
 houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
 
 # Option 1: places cables alongside others (longer dict, no dict checks)
-for battery in batteries:
-    for house in houses:
-        if experimentimportTXT.match_with_house(house, battery):
+for j in range(len(batteries)):
+    for i in range(len(houses)):
+        if experimentimportTXT.match_with_house(i, j):
 
-        Cable.pos_x = house.pos_x
-        Cable.pos_y = house.pos_y
+            Cable.pos_x = houses[i].pos_x
+            Cable.pos_y = houses[i].pos_y
 
         # cable loops through x
-        for Cable.pos_x != Battery.pos_x:
-            if Cable.pos_x < Battery.pos_x:
+        while Cable.pos_x != batteries[j].pos_x:
+            if Cable.pos_x < batteries[j].pos_x:
                 Cable.pos_x += 1
                 cable_dict[Cable.pos_x, Cable.pos_y] = true
 
-            elif Cable.pos_x > Battery.pos_x:
+            elif Cable.pos_x > batteries[j].pos_x:
                 Cable.pos_x -= 1
                 cable_dict[Cable.pos_x, Cable.pos_y] = true
 
         # cable loops through y
-        for Cable.pos_y != Battery.pos_y:
-            if Cable.pos_y < Battery.pos_y:
+        while Cable.pos_y != batteries[j].pos_y:
+            if Cable.pos_y < batteries[j].pos_y:
                 Cable.pos_y += 1
                 cable_dict[Cable.pos_x, Cable.pos_y] = true
 
-            elif Cable.pos_y > Battery.pos_y:
+            elif Cable.pos_y > batteries[j].pos_y:
                 Cable.pos_y -= 1
                 cable_dict[Cable.pos_x, Cable.pos_y] = true
 
