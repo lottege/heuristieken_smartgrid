@@ -4,7 +4,6 @@
 '''
 
 import csv
-import importTXT
 
 
 class House:
@@ -28,14 +27,9 @@ if __name__ == '__main__':
             house_list.append(house)
 
 
-#print("x-coordinate: {}\ny-coordinate: {}\noutput: {}".format(house_list[5].pos_x, house_list[5].pos_y, house_list[5].output))
+print("x-coordinate: {}\ny-coordinate: {}\noutput: {}".format(house_list[5].pos_x, house_list[5].pos_y, house_list[5].output))
 
 
-def match_with_house(house_number, battery_number):
-    if house_list[house_number].output > importTXT.battery_list[battery_number]:
-        print("ok")
 
-
-match_with_house(4, 3)
 
 
