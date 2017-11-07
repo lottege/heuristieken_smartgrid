@@ -34,7 +34,7 @@ def readtxt(txtfile):
         battery_list = []
         for row in readCSV:
             parts = row[0].split(',')
-            battery = Battery(parts[0].strip()[1:], parts[1].strip(), row[1].strip())
+            battery = Battery(parts[0].strip()[1:], parts[1].strip(), float(row[1].strip()))
             battery_list.append(battery)
 
         return battery_list
@@ -43,10 +43,11 @@ def readtxt(txtfile):
 def readcsv(csvfile):
     with open(csvfile) as wijk1:
         readCSV = csv.reader(wijk1, delimiter=',')
+        next(readCSV)
 
         house_list = []
         for row in readCSV:
-            house = House(row[0], row[1], row[2])
+            house = House(row[0], row[1], float(row[2]))
             house_list.append(house)
 
         return house_list
@@ -57,10 +58,8 @@ houses = readcsv("wijk1_huizen.csv")
 
 
 def match_with_house(house_number, battery_number):
-    if houses[house_number].output > batteries[battery_number].capacity:
-        print(houses[house_number].output)
-        print(batteries[battery_number].capacity)
-        print("ok")
+    if houses[house_number].output < batteries[battery_number].capacity:
+        batteries[battery_number].capacity -= houses[house_number].output
 
 
 match_with_house(4, 3)
