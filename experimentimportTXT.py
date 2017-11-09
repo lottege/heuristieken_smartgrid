@@ -53,16 +53,11 @@ def readcsv(csvfile):
         return house_list
 
 
-batteries = readtxt("wijk1_batterijen.txt")
-houses = readcsv("wijk1_huizen.csv")
 
 
-def match_with_house(house_number, battery_number):
-    if houses[house_number].output < batteries[battery_number].capacity:
-        batteries[battery_number].capacity -= houses[house_number].output
+def match_with_house(house, battery):
+    if house.output < battery.capacity:
         return True
     else:
         return False
 
-
-match_with_house(4, 3)

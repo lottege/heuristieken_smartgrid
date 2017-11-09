@@ -15,7 +15,7 @@ houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
 for battery in range(len(batteries)):
     i = 0
     for house in range(len(houses)):
-        if experimentimportTXT.match_with_house(house, battery) and houses[house].output > 0:
+        if experimentimportTXT.match_with_house(houses[house], batteries[battery]) and houses[house].output > 0:
 
             cable_pos_x = houses[house].pos_x
             cable_pos_y = houses[house].pos_y
@@ -60,7 +60,7 @@ for battery in range(len(batteries)):
         else:
 
             # locates battery and house that returns false on MWH or has output of 0
-            print(battery, house,  end="x, ")
+            print(battery, house, end="x, ")
             #debug
 
 
