@@ -1,7 +1,16 @@
-Week 2 Techassist
+Techassist
+Week 2
 
 Sommige classes kunnen tuples zijn.
 main.py aanmaken en de functies en classes in aparte bestanden opslaan.
 Voor elk huis kijken wat de dichtsbijzijne batterij is en hem daar aan koppelen met de manhattan distance.
 Visualisatie maken.
+
+Volgende week afspraak: Dinsdag 10:45
+
+Week 3
+
+Progresspoints voor datastructuur
+Argumenten mailen en stukjes van de code
+
 Volgende week afspraak: Dinsdag 10:45
