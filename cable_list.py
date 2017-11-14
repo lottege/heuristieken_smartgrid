@@ -64,6 +64,10 @@ for i in range(len(batteries)):
 for i in range(len(batteries)):
     print(batteries[i].capacity)
 
-
+kosten = len(cable_list) * 9
+totaal = kosten + (5 * 5000)
 print(len(cable_list))
 print(connected)
+
+print(kosten)
+print(totaal)
