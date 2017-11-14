@@ -20,7 +20,6 @@ for battery in range(len(batteries)):
             cable_pos_x = houses[house].pos_x
             cable_pos_y = houses[house].pos_y
 
-
             # cable loops through x
             while cable_pos_x != batteries[battery].pos_x:
                 if cable_pos_x < batteries[battery].pos_x:

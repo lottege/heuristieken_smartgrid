@@ -15,13 +15,14 @@ class Cable:
 
 cable_list = []
 connected = 0
+
 batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
 houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
 
 # Option 1: places cables alongside others (longer dict, no dict checks)
 for i in range(len(batteries)):
     for j in range(len(houses)):
-        if experimentimportTXT.match_with_house(j, i):
+        if experimentimportTXT.match_with_house(houses[j], batteries[i]) and houses[j].output > 0:
 
             cable = Cable(houses[j].pos_x, houses[j].pos_y)
             cable_list.append(cable)
@@ -49,9 +50,16 @@ for i in range(len(batteries)):
             if cable_list[-1].pos_y == batteries[i].pos_y and cable_list[-1].pos_x == batteries[i].pos_x:
                 connected += 1
                 batteries[i].capacity -= houses[j].output
+                houses[j].output -= houses[j].output
+        else:
+
+            # locates battery and house that returns false on MWH or has output of 0
+            print(i, j, end="x, ")
+            #debug
 
 for i in range(len(batteries)):
     print(batteries[i].capacity)
+
 
 print(len(cable_list))
 print(connected)

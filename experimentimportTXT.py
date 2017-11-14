@@ -53,8 +53,6 @@ def readcsv(csvfile):
         return house_list
 
 
-
-
 def match_with_house(house, battery):
     if house.output < battery.capacity:
         return True
