@@ -118,7 +118,7 @@ def distance_sort(batteries, houses):
     distance = {}
     for j in range(len(houses)):
         for i in range(len(batteries)):
-            dis = abs((houses[j].pos_x - batteries[i].pos_x) + (houses[j].pos_y - batteries[i].pos_y))
+            dis = (abs(houses[j].pos_x - batteries[i].pos_x) + abs(houses[j].pos_y - batteries[i].pos_y))
             distance[i] = dis
         sorted_distance = sorted(distance.items(), key=operator.itemgetter(1))
         distances.append(sorted_distance)
@@ -129,7 +129,7 @@ def distance_sort(batteries, houses):
 def sort_houses(houses):
     distance = {}
     for i in range(len(houses)):
-        dis = abs((houses[i].pos_x - 25) + (houses[i].pos_y - 25))
+        dis = (abs(houses[i].pos_x - 25) + abs(houses[i].pos_y - 25))
         distance[i] = dis
 
     sorted_distance = sorted(distance.items(), key=operator.itemgetter(1), reverse=True)
