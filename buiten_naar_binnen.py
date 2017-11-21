@@ -23,5 +23,8 @@ for house in sorted_houses:
             connected += 1
             break
 
+
+
 print(len(cl))
+print(len(cable_list))
 print(connected)
