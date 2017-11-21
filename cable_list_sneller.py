@@ -14,6 +14,7 @@ random = 0
 optimaal = 0
 tweede_optimaal = 0
 derde_optimaal = 0
+vierde_optimaal = 0
 
 batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
 houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
@@ -76,16 +77,25 @@ for j in range(len(houses)):
                                         cl = experimentimportTXT.connect_to_battery(j, i, cable_list, batteries, houses)
                                         connected += 1
                                         derde_optimaal += 1
+                                else:
+                                    distance = []
+                                    for i in range(len(batteries)):
+                                        dis = abs((houses[j].pos_x - batteries[i].pos_x) + (houses[j].pos_y - batteries[i].pos_y))
+                                        distance.append(dis)
 
+                                    fourth = experimentimportTXT.fourth_smallest(distance)
 
-                # for k in range(len(batteries)):
-                #     if experimentimportTXT.match_with_house(houses[j], batteries[(i + k) % 4]) and houses[j].output > 0:
-                #         cable = experimentimportTXT.Cable(houses[j].pos_x, houses[j].pos_y, ((i + k) % 4))
-                #         cable_list.append(cable)
-                #
-                #         cl = experimentimportTXT.connect_to_battery(j, (i + k % 4), cable_list, batteries, houses)
-                #         connected += 1
-                #         random += 1
+                                    for i in range(len(batteries)):
+                                        dis = abs((houses[j].pos_x - batteries[i].pos_x) + (houses[j].pos_y - batteries[i].pos_y))
+                                        if dis == fourth:
+                                            if experimentimportTXT.match_with_house(houses[j], batteries[i]) and houses[j].output > 0:
+
+                                                cable = experimentimportTXT.Cable(houses[j].pos_x, houses[j].pos_y, i)
+                                                cable_list.append(cable)
+
+                                                cl = experimentimportTXT.connect_to_battery(j, i, cable_list, batteries, houses)
+                                                connected += 1
+                                                vierde_optimaal += 1
 
 
 for i in range(len(batteries)):
@@ -95,9 +105,11 @@ kosten = len(cl) * 9
 totaal = kosten + (5 * 5000)
 
 print(connected)
+
+print(optimaal)
 print(tweede_optimaal)
 print(derde_optimaal)
-print(optimaal)
+print(vierde_optimaal)
 
 print(len(cl))
 print(kosten)

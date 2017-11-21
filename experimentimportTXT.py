@@ -4,6 +4,7 @@
 '''
 
 import csv
+import operator
 
 
 class Battery:
@@ -98,15 +99,28 @@ def connect_to_battery(house, battery, cable_list, batteries, houses):
 
 
 def second_smallest(lst):
-    first = second = float("inf")
-    for num in lst:
-        if num < first:
-            second, first = first, num
-        elif first < num < second:
-            second = num
-    return second
+    lst.sort()
+    return lst[1]
 
 
 def third_smallest(lst):
     lst.sort()
     return lst[2]
+
+
+def fourth_smallest(lst):
+    lst.sort()
+    return lst[4]
+
+
+def distance_sort(batteries, houses):
+    distances = []
+    distance = {}
+    for j in range(len(houses)):
+        for i in range(len(batteries)):
+            dis = abs((houses[j].pos_x - batteries[i].pos_x) + (houses[j].pos_y - batteries[i].pos_y))
+            distance[i] = dis
+        sorted_distance = sorted(distance.items(), key=operator.itemgetter(1))
+        distances.append(sorted_distance)
+
+    return distances

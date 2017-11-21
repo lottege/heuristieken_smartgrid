@@ -14,3 +14,27 @@ Progresspoints voor datastructuur
 Argumenten mailen en stukjes van de code
 
 Volgende week afspraak: Dinsdag 10:45
+
+Week 4
+
+functies van visualisatie maken
+en functie van het inlezen gebruiken in visualiseren
+argumenten bijv voor datastructuur opstellen en mailen vóór de afspraak van volgende week,
+en aangeven hoe veel punten we willen, voor infra/datastructuur bijvoorbeeld 3
+
+main functie die vraagt welke wijk je wil analyseren en welk algoritme -> return tijd, kosten, visualtisatie
+files renamen naar welk algoritme het is
+cable_list is datastructuur
+cable_list sneller is manhattan distance
+algoritme folder aanmaken waar bijvoorbeeld hillclimber en cable_list sneller in staan
+
+Random huizen bij batterijen gooien en dat in de hillclimber stoppen
+Van buiten naar binnen en dat in de hillclimber stoppen
+
+Punten aanvragen:
+infra en datastructuur wil je bulletpoints
+voor de rest een tekstje
+
+we moeten een requirements.txt aanmaken waar alle packages inkomen die niet standaard in python zitten.
+
+Volgende week afspraak: Dinsdag 10:45
