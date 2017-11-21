@@ -13,7 +13,7 @@ houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
 
 distance = experimentimportTXT.distance_sort(batteries, houses)
 sorted_houses = experimentimportTXT.sort_houses(houses)
-print(sorted_houses)
+
 for house in sorted_houses:
     for key in distance[house[0]]:
         if experimentimportTXT.match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
