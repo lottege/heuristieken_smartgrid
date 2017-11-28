@@ -38,3 +38,22 @@ voor de rest een tekstje
 we moeten een requirements.txt aanmaken waar alle packages inkomen die niet standaard in python zitten.
 
 Volgende week afspraak: Dinsdag 10:45
+
+Week 5
+Brute force - Breadth first
+Simulate annealing
+Argumenten IDEA mailen
+
+Voor 5 punten infrastructuur:
+-Folder structuur github
+-Main
+-README goed gebruiken
+-Requirements.txt (kan je automatisch laten genereren)
+-Visualisatie
+
+Mix and match van algoritmes gebruiken
+Nadenken over hoe we de batterijen willen gaan plaatsen
+
+Testen om experimentatie punten te krijgen, hier hypotheses voor opstellen:
+Algoritmes vergelijken en uitkomst voorspellen
+Per algoritme een alinea, plotje erbij

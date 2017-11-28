@@ -17,8 +17,8 @@ class Cable:
 cable_list = []
 connected = 0
 
-batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
-houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
+batteries = experimentimportTXT.readtxt("wijk3_batterijen.txt")
+houses = experimentimportTXT.readcsv("wijk3_huizen.csv")
 
 # Option 1: places cables alongside others (longer dict, no dict checks)
 for i in range(len(batteries)):

@@ -8,8 +8,8 @@ cable_list = []
 cl = []
 connected = 0
 
-batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
-houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
+batteries = experimentimportTXT.readtxt("wijk3_batterijen.txt")
+houses = experimentimportTXT.readcsv("wijk3_huizen.csv")
 
 distance = experimentimportTXT.distance_sort(batteries, houses)
 sorted_houses = experimentimportTXT.sort_houses(houses)
@@ -22,8 +22,6 @@ for house in sorted_houses:
             cl = experimentimportTXT.connect_to_battery(house[0], key[0], cable_list, batteries, houses)
             connected += 1
             break
-
-
 
 print(len(cl))
 print(len(cable_list))

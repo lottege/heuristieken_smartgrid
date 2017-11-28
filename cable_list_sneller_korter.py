@@ -1,6 +1,8 @@
 '''
  / connects houses to the closest battery if it has enough capacity
 '''
+
+
 import experimentimportTXT
 
 
@@ -8,8 +10,8 @@ cable_list = []
 cl = []
 connected = 0
 
-batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
-houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
+batteries = experimentimportTXT.readtxt("wijk3_batterijen.txt")
+houses = experimentimportTXT.readcsv("wijk3_huizen.csv")
 
 distance = experimentimportTXT.distance_sort(batteries, houses)
 
@@ -24,4 +26,3 @@ for i in range(len(houses)):
 
 print(len(cl))
 print(connected)
-
