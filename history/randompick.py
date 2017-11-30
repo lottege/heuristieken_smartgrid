@@ -14,14 +14,17 @@ cable_list = []
 new_cable_list = []
 connected = 0
 
-batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
-houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
 
-houses_random = []
 
-old_cost = 6000 
 
-for a in range(200):
+
+old_cost = 6000 * 9
+
+for a in range(20000):
+    batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
+    houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
+    houses_random = []
+    cable_list = []
     while len(houses_random) < len(houses):
         random_house = random.choice(houses)
         if random_house not in houses_random:
@@ -36,22 +39,27 @@ for a in range(200):
                 cable_list.append(cable)
                 experimentimportTXT.connect_to_battery(house, battery, cable_list, batteries, houses_random)
                 connected += 1
-                print(houses_random[house])
+
+
+
     
 
-    new_cost = len(cable_list)
+    new_cost = len(cable_list) * 9
 
-    print(new_cost)
+    # print(new_cost)
     if new_cost < old_cost:
 
         connected_new = connected
         old_cost = new_cost
-        new_cable_list = cable_list  
+        new_cable_list = cable_list
+        print(len(new_cable_list))        
+    
+    else:
+        connected = 0
 
-    print(len(new_cable_list))
 
 
 
 
 
-vis.visualisation(houses_random, batteries, cable_list)
+vis.visualisation(houses_random, batteries, new_cable_list)
