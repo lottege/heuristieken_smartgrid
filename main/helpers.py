@@ -6,7 +6,6 @@
 import csv
 import operator
 
-
 class Battery:
     number = 0
 
@@ -96,7 +95,60 @@ def connect_to_battery(house, battery, cable_list, batteries, houses):
         houses[house].output -= houses[house].output
 
     return cable_list
+    
+def reconnect_to_battery(house, battery, second_battery, cable_list, batteries, houses):
+    # cable loops through x
+    connected = 0
+    while cable_list[houses[house]].pos_x != batteries[battery].pos_x:
+        if cable_list[houses[house]].pos_x < batteries[battery].pos_x:
+            cable = Cable(cable_list[houses[house]].pos_x + 1, cable_list[houses[house]].pos_y, battery)
+            cable_list.remove(cable)
+            cable_list[houses[house]].pos_x += 1
 
+        elif cable_list[houses[house]].pos_x > batteries[battery].pos_x:
+            cable = Cable(cable_list[houses[house]].pos_x - 1, cable_list[houses[house]].pos_y, battery)
+            cable_list.remove(cable)
+            cable_list[houses[house]].pos_x -= 1
+
+    # cable loops through y
+    while cable_list[houses[house]].pos_y != batteries[battery].pos_y:
+        if cable_list[houses[house]].pos_y < batteries[battery].pos_y:
+            cable = Cable(cable_list[houses[house]].pos_x, cable_list[houses[house]].pos_y + 1, battery)
+            cable_list.remove(cable)
+            cable_list[houses[house]].pos_y += 1
+
+        elif cable_list[houses[house]].pos_y > batteries[battery].pos_y:
+            cable = Cable(cable_list[houses[house]].pos_x, cable_list[houses[house]].pos_y - 1, battery)
+            cable_list.remove(cable)
+            cable_list[houses[house]].pos_y -= 1
+
+    if cable_list[houses[house]].pos_y == batteries[battery].pos_y and cable_list[houses[house]].pos_x == batteries[battery].pos_x:
+        connected -= 1
+        batteries[battery].capacity += houses[house].output
+        
+    while cable_list[-1].pos_x != batteries[battery].pos_x:
+        if cable_list[-1].pos_x < batteries[battery].pos_x:
+            cable = Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, battery)
+            cable_list.append(cable)
+
+        elif cable_list[-1].pos_x > batteries[battery].pos_x:
+            cable = Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, battery)
+            cable_list.append(cable)
+
+    # cable loops through y
+    while cable_list[-1].pos_y != batteries[battery].pos_y:
+        if cable_list[-1].pos_y < batteries[battery].pos_y:
+            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y + 1, battery)
+            cable_list.append(cable)
+
+        elif cable_list[-1].pos_y > batteries[battery].pos_y:
+            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y - 1, battery)
+            cable_list.append(cable)
+
+    if cable_list[-1].pos_y == batteries[battery].pos_y and cable_list[-1].pos_x == batteries[battery].pos_x:
+        connected += 1
+        batteries[battery].capacity -= houses[house].output
+        houses[house].output -= houses[house].output
 
 def second_smallest(lst):
     lst.sort()
