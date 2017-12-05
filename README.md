@@ -19,13 +19,13 @@ The following algorithms are set up to retrieve the most optimal solution:
 ## Hillclimber with random start
 The algorithm each time starts with a random sequence of houses of a certain district.
 
-Buiten naar binnen
+## Buiten naar binnen
 The houses are connected to the batteries, starting with the houses that are at the utmost end of the grid.
 
-Randompick
+## Randompick
 A random sequence of houses of a certain district are connected to the batteries. Each time looking for the optimal solution, by connecting the houses to the batteries in a certain way. Then comparing the result to the previous result and save that result with the lowest cost.
 
-Hillclimber
+## Hillclimber
 
 
 
