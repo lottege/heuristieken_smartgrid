@@ -6,6 +6,7 @@
 import csv
 import operator
 
+
 class Battery:
     number = 0
 
@@ -14,6 +15,12 @@ class Battery:
         self.pos_y = pos_y
         self.capacity = capacity
         Battery.number += 1
+
+    def match_with_house(self, house):
+        if house.output < self.capacity:
+            return True
+        else:
+            return False
 
 
 class House:
@@ -167,8 +174,8 @@ def fourth_smallest(lst):
 
 def distance_sort(batteries, houses):
     distances = []
-    distance = {}
     for j in range(len(houses)):
+        distance = {}
         for i in range(len(batteries)):
             dis = (abs(houses[j].pos_x - batteries[i].pos_x) + abs(houses[j].pos_y - batteries[i].pos_y))
             distance[i] = dis
@@ -187,3 +194,19 @@ def sort_houses(houses):
     sorted_distance = sorted(distance.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_distance
+
+
+def sort_on_battery_distance(batteries, houses):
+    distances = []
+    for j in range(len(houses)):
+        distance = []
+        for i in range(len(batteries)):
+            dis = (abs(houses[j].pos_x - batteries[i].pos_x) + abs(houses[j].pos_y - batteries[i].pos_y))
+            triple = [dis, i, j]
+            # distance[dis] = i, j
+            distance.append(triple)
+        sorted_distance = sorted(distance, key=operator.itemgetter(0))
+        distances.append(sorted_distance)
+
+    end_sort = sorted(distances, key=lambda x: x[0][0], reverse=True)
+    return end_sort
