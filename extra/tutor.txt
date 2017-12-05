@@ -1,0 +1,23 @@
+week 6
+link naar github erin
+
+infrastructuur is prima
+screenshot van visualisatie
+linkje naar de file misschien
+readme aanmaken
+
+mapje met alle algoritmes aanmaken, en een text bestand dat alle agoritmes bespreekt
+main functie gebruiken als bridge tussen algoritmes en input
+requirements.txt moet er in
+scorefunctie klopt
+
+datastructuur classes uitleggen, hoe je ze gebruikt en hoe je ze manipuleert
+functies voor je datastructuur op de goede plek zetten
+
+readfiles moeten in helpers.py niet in classes
+
+experimentatie algoriten vergelijken
+hypothese opstellen, kijken welke sneller is, en conclusies trekken
+we kunnen ook de twee datastructuren (list en hashtable) met elkaar vergelijken bij experimentatie
+
+temperatuurschema's maken
