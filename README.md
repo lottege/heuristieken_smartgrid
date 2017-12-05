@@ -5,11 +5,14 @@ Smartgrid is a project where green energy is produced by houses, but there is an
 # Motivation
 The goal of this project is to connect the houses with the batteries in the most optimal way. The most optimal solution shoudl have the least costs.  
 
-# Prerequisites
-The package used in this project is:
+# Installation
+The project can be retrieved by copying the code in the files, and installing the required packages.
+
+## Prerequisites
+The packages used in this project are:
 - mathplotlib.pyplot is a library which produces figures in a variety of formats, helps to represent the way the houses are                         connected to the batteries in a plot.
 
-# Installation 
+# Tests
 The following algorithms are set up to retrieve the most optimal solution:
 - Hillclimber with random start 
 - Buiten naar binnen
