@@ -99,10 +99,11 @@ def connect_to_battery(house, battery, cable_list, batteries, houses):
     if cable_list[-1].pos_y == batteries[battery].pos_y and cable_list[-1].pos_x == batteries[battery].pos_x:
         connected += 1
         batteries[battery].capacity -= houses[house].output
-        houses[house].output -= houses[house].output
+        # houses[house].output -= houses[house].output
 
     return cable_list
-    
+
+
 def reconnect_to_battery(house, battery, second_battery, cable_list, batteries, houses):
     # cable loops through x
     connected = 0
@@ -157,6 +158,7 @@ def reconnect_to_battery(house, battery, second_battery, cable_list, batteries, 
         batteries[battery].capacity -= houses[house].output
         houses[house].output -= houses[house].output
 
+
 def second_smallest(lst):
     lst.sort()
     return lst[1]
@@ -210,3 +212,25 @@ def sort_on_battery_distance(batteries, houses):
 
     end_sort = sorted(distances, key=lambda x: x[0][0], reverse=True)
     return end_sort
+
+
+def connection(sorted_houses, distance, batteries, houses):
+    cable_list = []
+    cl = []
+    connected = 0
+    for house in sorted_houses:
+        for key in distance[house[0]]:
+            if match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
+                cable = Cable(houses[house[0]].pos_x, houses[house[0]].pos_y, key[0])
+                cable_list.append(cable)
+                cl = connect_to_battery(house[0], key[0], cable_list, batteries, houses)
+                connected += 1
+                break
+    return cl
+
+
+def reset_batteries(batteries):
+    for bat in batteries:
+        bat.capacity = 1507.0
+
+    return batteries
