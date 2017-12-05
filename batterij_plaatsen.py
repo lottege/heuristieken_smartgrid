@@ -30,6 +30,7 @@ for a in range(2000):
         for bat in batteries:
             battery = helpers.Battery(bat.pos_x, bat.pos_y, bat.capacity)
             battery_locations.append(battery)
+        final_houses = sorted_houses
         winner = cl
 
     # print(batteries[0].pos_x)
