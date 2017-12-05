@@ -26,7 +26,10 @@ for a in range(2000):
 
     if len(cl) < previous:
         previous = len(cl)
-        # battery_locations = batteries.pos_x
+        battery_locations = []
+        for bat in batteries:
+            battery = helpers.Battery(bat.pos_x, bat.pos_y, bat.capacity)
+            battery_locations.append(battery)
         winner = cl
 
     # print(batteries[0].pos_x)
