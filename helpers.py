@@ -99,20 +99,22 @@ def connect_to_battery(house, battery, cable_list, batteries, houses):
     return cable_list
 
 
-def switch_houses(house, second_house, battery, second_battery, cable_list, batteries):
-    connected = 0
+def switch_houses(house, second_house, battery, second_battery, cable_list, batteries, connected):
+
 
     house_pointer = house
     battery_pointer = battery
-
     if battery.capacity + house.output >= second_house.output and second_battery.capacity + second_house.output >= house.output and battery != second_battery:
-
+        # print("before", house.battery, second_house.battery)
     # disconnects battery
     # cable loops through x
         change = cable_list.remove
         k = 0
+        limit = 6
+        word = "nopey"
         for i in range(2):
             for j in range(2):
+                l = 0
                 while house_pointer.pos_x != battery_pointer.pos_x:
                     if house_pointer.pos_x < battery_pointer.pos_x:
                         while house_pointer.pos_x < battery_pointer.pos_x:
@@ -126,6 +128,10 @@ def switch_houses(house, second_house, battery, second_battery, cable_list, batt
                             k += 1
                             if k == len(cable_list):
                                 k = 0
+                                l += 1
+                                if l == limit:
+                                    print(word)
+                                    return False
 
                     elif house_pointer.pos_x > battery_pointer.pos_x:
                         while house_pointer.pos_x > battery_pointer.pos_x:
@@ -139,6 +145,10 @@ def switch_houses(house, second_house, battery, second_battery, cable_list, batt
                             k += 1
                             if k == len(cable_list):
                                 k = 0
+                                l += 1
+                                if l == limit:
+                                    print(word)
+                                    return False
 
             # cable loops through y
                 while house_pointer.pos_y != battery_pointer.pos_y:
@@ -154,6 +164,10 @@ def switch_houses(house, second_house, battery, second_battery, cable_list, batt
                             k += 1
                             if k == len(cable_list):
                                 k = 0
+                                l += 1
+                                if l == limit:
+                                    print(word)
+                                    return False
 
                     elif house_pointer.pos_y > battery_pointer.pos_y:
                         while house_pointer.pos_y > battery_pointer.pos_y:
@@ -167,6 +181,10 @@ def switch_houses(house, second_house, battery, second_battery, cable_list, batt
                             k += 1
                             if k == len(cable_list):
                                 k = 0
+                                l += 1
+                                if l == limit:
+                                    print(word)
+                                    return False
 
                 if house_pointer.pos_y == battery_pointer.pos_y and house_pointer.pos_x == battery_pointer.pos_x and i is 0:
                     connected -= 1
@@ -190,13 +208,19 @@ def switch_houses(house, second_house, battery, second_battery, cable_list, batt
                         house_pointer = second_house
                     elif j is 1:
                         battery.capacity -= second_house.output
+                        extra_battery = house.battery
+                        house.battery = second_house.battery
+                        second_house.battery = extra_battery
+
 
                 # else:
                     # print("not connected: ", house_pointer.pos_x, battery_pointer.pos_x, house_pointer.pos_y, battery_pointer.pos_y)
 
+        # print("after", house.battery, second_house.battery)
         return True
     else:
         return False
+
 
 
 def distance_sort(batteries, houses):
