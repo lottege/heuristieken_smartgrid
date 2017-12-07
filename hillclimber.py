@@ -36,10 +36,13 @@ for battery in range(len(batteries)):
 
 old_cost = len(cable_list)
 
+q = 0
+
 for a in range(tries):
     random_houses = []
     k = 0
-    l = 30000
+    l = 30
+    q += 1
 
 
     houses2 = experimentimportTXT.readcsv("wijk1_huizen.csv")
@@ -49,9 +52,9 @@ for a in range(tries):
     for k in range(l):
         a = random.choice(houses)
         b = random.choice(houses)
-        while a.battery > 2:
+        while a.battery > 4:
             a = random.choice(houses)
-        while b.battery > 2:
+        while b.battery > 4:
             b = random.choice(houses)
 
 
@@ -60,8 +63,10 @@ for a in range(tries):
     # print(a)
     # print(batteries[a.battery])
     # print(batteries)
+
+
         for m in range(1):
-            if experimentimportTXT.switch_houses(a, b, batteries[a.battery], batteries[b.battery], cable_list, batteries) == True:
+            if experimentimportTXT.switch_houses(a, b, batteries[a.battery], batteries[b.battery], cable_list, batteries, connected) == True:
 
                 new_cost = len(cable_list)
                 # print(new_cost)
@@ -71,8 +76,6 @@ for a in range(tries):
                     old_cost = new_cost
                     new_cable_list = cable_list
                     print("best", i ,", cables used = ", len(new_cable_list))
-                else:
-                    connected = 0
 
 
 
