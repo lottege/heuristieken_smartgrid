@@ -13,7 +13,7 @@ winner = []
 
 previous = 10000
 score = 8000
-for a in range(200):
+for a in range(20000):
     helpers.reset_batteries(batteries)
     for bat in batteries:
         bat.pos_x = randint(0, 50)
@@ -35,8 +35,12 @@ for a in range(200):
 
 print("hoeraa")
 hill = []
+tries = 0
 for b in range(10000):
     # while len(hill) <= previous:
+        tries += 1
+        if (tries % 100) == 0:
+            print(tries)
         helpers.reset_batteries(battery_locations)
         helpers.swap(battery_locations[randint(0, 4)])
         distance = helpers.distance_sort(battery_locations, houses)
@@ -55,7 +59,3 @@ for b in range(10000):
 
 print(previous)
 print(len(winner))
-
-
-
-
