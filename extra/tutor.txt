@@ -21,3 +21,18 @@ hypothese opstellen, kijken welke sneller is, en conclusies trekken
 we kunnen ook de twee datastructuren (list en hashtable) met elkaar vergelijken bij experimentatie
 
 temperatuurschema's maken
+
+presentatie
+simulated annealing
+combinatie van de hillclimbers toepassen
+fragment randomizer
+
+Week 7
+VOOR DONDERDAG AVOND:
+op de dropbox staat een template voor infra en datastructuur er missen een aantal dingen
+history veranderen in algoritmen
+infrastructuur:
+requirements.txt er in stoppen (even googlen)
+experimentatie hoe we het nu hebben zegt niks, we hebben geen resultaten, geen tests. Hier kunnen we de algoritmes in testen,
+kleine hypotheses erbij.
+Algoritme met duidelijke kopjes

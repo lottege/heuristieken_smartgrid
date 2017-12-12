@@ -8,11 +8,13 @@ from random import randint
 
 batteries = helpers.readtxt("wijk1_batterijen.txt")
 houses = helpers.readcsv("wijk1_huizen.csv")
+final_houses = []
+winner = []
 
 previous = 10000
 score = 8000
-for a in range(200000):
-    batteries = helpers.reset_batteries(batteries)
+for a in range(200):
+    helpers.reset_batteries(batteries)
     for bat in batteries:
         bat.pos_x = randint(0, 50)
         bat.pos_y = randint(0, 50)
@@ -22,6 +24,7 @@ for a in range(200000):
     cl = helpers.connection(sorted_houses, distance, batteries, houses)
 
     if len(cl) < previous:
+        print('yay')
         previous = len(cl)
         battery_locations = []
         for bat in batteries:
@@ -30,8 +33,29 @@ for a in range(200000):
         final_houses = sorted_houses
         winner = cl
 
+print("hoeraa")
+hill = []
+for b in range(10000):
+    # while len(hill) <= previous:
+        helpers.reset_batteries(battery_locations)
+        helpers.swap(battery_locations[randint(0, 4)])
+        distance = helpers.distance_sort(battery_locations, houses)
+        sorted_houses = helpers.sort_houses(houses)
+        hill = helpers.connection(sorted_houses, distance, battery_locations, houses)
+
+        if len(hill) < previous:
+            previous = len(hill)
+            final_batteries = []
+            for bat in batteries:
+                battery = helpers.Battery(bat.pos_x, bat.pos_y, bat.capacity)
+                final_batteries.append(battery)
+            final_houses = sorted_houses
+            winner = hill
+            print(len(winner))
+
 print(previous)
-# vis.visualisation(houses, battery_locations, winner)
+print(len(winner))
+
 
 
 

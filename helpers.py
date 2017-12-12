@@ -5,6 +5,7 @@
 
 import csv
 import operator
+from random import randint
 
 
 class Battery:
@@ -233,4 +234,15 @@ def reset_batteries(batteries):
     for bat in batteries:
         bat.capacity = 1507.0
 
-    return batteries
+
+def swap(battery):
+    # amount = random(1-5)
+    direction = randint(1, 4)
+    if direction == 1:
+        battery.pos_x += 1
+    elif direction == 2:
+        battery.pos_x -= 1
+    elif direction == 3:
+        battery.pos_y += 1
+    elif direction == 4:
+        battery.pos_y -= 1
