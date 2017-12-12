@@ -59,3 +59,4 @@ for b in range(10000):
 
 print(previous)
 print(len(winner))
+# vis.visualisation(houses, final_batteries, winner)
