@@ -13,7 +13,7 @@ winner = []
 
 previous = 10000
 score = 8000
-for a in range(20000):
+for a in range(200):
     helpers2.reset_batteries(batteries)
     for bat in batteries:
         bat.pos_x = randint(0, 50)
@@ -36,7 +36,7 @@ for a in range(20000):
 print("hoeraa")
 hill = []
 tries = 0
-for b in range(10000):
+for b in range(200):
     # while len(hill) <= previous:
         tries += 1
         if (tries % 100) == 0:
@@ -59,4 +59,6 @@ for b in range(10000):
 
 print(previous)
 print(len(winner))
+price = (len(winner) * 9) + (len(batteries) * 5000)
+print(price)
 # vis.visualisation(houses, final_batteries, winner)

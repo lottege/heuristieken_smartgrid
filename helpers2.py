@@ -41,9 +41,10 @@ class Cable:
         self.battery_nr = battery_nr
 
 
-Cable = classes.Cable
-House = classes.House
-Battery= classes.Battery
+# Cable = classes.Cable
+# House = classes.House
+# Battery= classes.Battery
+
 
 def readtxt(txtfile):
     with open(txtfile, newline='') as batterijen1:
