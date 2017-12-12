@@ -7,7 +7,7 @@ from random import randint
 
 
 houses = helpers2.readcsv("wijk1_huizen.csv")
-
+winner = []
 
 previous = 10000
 score = 8000
@@ -32,5 +32,5 @@ for a in range(200):
 print(previous)
 # vis.visualisation(houses, battery_locations, winner)
 
-
+# price = (len(winner) * 9) +
 
