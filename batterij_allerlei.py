@@ -7,14 +7,14 @@ from random import randint
 
 
 houses = helpers.readcsv("wijk1_huizen.csv")
-batteries = []
+
 
 previous = 10000
 score = 8000
-for a in range(200000):
-
-    for i in range(5):
-        bat = helpers.Cable(randint(0, 50), randint(0, 50), 900)
+for a in range(200):
+    batteries = []
+    for i in range(9):
+        bat = helpers.Battery(randint(0, 50), randint(0, 50), 900)
         batteries.append(bat)
     distance = helpers.distance_sort(batteries, houses)
     sorted_houses = helpers.sort_houses(houses)
