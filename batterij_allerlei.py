@@ -12,7 +12,7 @@ batteries = []
 
 previous = 10000
 score = 8000
-for a in range(1000):
+for a in range(100):
     batteries = []
     for i in range(9):
         bat = helpers2.Battery(randint(0, 50), randint(0, 50), 900)
@@ -29,11 +29,12 @@ for a in range(1000):
             battery_locations.append(battery)
         final_houses = sorted_houses
         winner = cl
+print("winner: ", len(winner))
 print("hoeraa")
 
 hill = []
 tries = 0
-for b in range(1000):
+for b in range(100):
     # while len(hill) <= previous:
     tries += 1
     if (tries % 100) == 0:
@@ -56,7 +57,7 @@ for b in range(1000):
         print(len(winner))
 
 print(previous)
-# vis.visualisation(houses, battery_locations, winner)
+# vis.visualisation(houses, final_batteries, winner)
 
 price = (len(winner) * 9) + (len(batteries) * 900)
 print(price)
