@@ -300,9 +300,9 @@ def reset_batteries(batteries):
         bat.capacity = 1507.0
 
 
-def swap(battery):
+def swap(battery, batteries):
     # amount = random(1-5)
-    direction = randint(1, 4)
+    direction = randint(1, len(batteries)-1)
     if direction == 1:
         battery.pos_x += 1
     elif direction == 2:

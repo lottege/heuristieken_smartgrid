@@ -13,7 +13,7 @@ winner = []
 
 previous = 10000
 score = 8000
-for a in range(200):
+for a in range(2000):
     helpers2.reset_batteries(batteries)
     for bat in batteries:
         bat.pos_x = randint(0, 50)
@@ -36,13 +36,13 @@ for a in range(200):
 print("hoeraa")
 hill = []
 tries = 0
-for b in range(200):
+for b in range(2000):
     # while len(hill) <= previous:
         tries += 1
         if (tries % 100) == 0:
             print(tries)
         helpers2.reset_batteries(battery_locations)
-        helpers2.swap(battery_locations[randint(0, 4)])
+        helpers2.swap(battery_locations[randint(0, 4)], battery_locations)
         distance = helpers2.distance_sort(battery_locations, houses)
         sorted_houses = helpers2.sort_houses(houses)
         hill = helpers2.connection(sorted_houses, distance, battery_locations, houses)
@@ -50,7 +50,7 @@ for b in range(200):
         if len(hill) < previous:
             previous = len(hill)
             final_batteries = []
-            for bat in batteries:
+            for bat in battery_locations:
                 battery = helpers2.Battery(bat.pos_x, bat.pos_y, bat.capacity)
                 final_batteries.append(battery)
             final_houses = sorted_houses
