@@ -5,41 +5,8 @@
 
 import csv
 import operator
-from random import randint
-
-
-class Battery:
-    number = 0
-
-    def __init__(self, pos_x, pos_y, capacity):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.capacity = capacity
-        Battery.number += 1
-
-    def match_with_house(self, house):
-        if house.output < self.capacity:
-            return True
-        else:
-            return False
-
-
-class House:
-    number = 0
-
-    def __init__(self, pos_x, pos_y, output):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.output = output
-        House.number += 1
-
-
-class Cable:
-    def __init__(self, pos_x, pos_y, battery_nr):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.battery_nr = battery_nr
-
+import classes
+from copy import deepcopy
 
 Cable = classes.Cable
 House = classes.House
@@ -78,171 +45,199 @@ def match_with_house(house, battery):
     else:
         return False
 
+def drain_capacity(house, battery):
+    if battery.capacity - house.output > 0:
+        battery.capacity -= house.output
+        house.battery = battery.number
+        return True
+    else:
+        print("Doesn't fit")
+        return False
 
-def connect_to_battery(house, battery, cable_list, batteries, houses):
+def refill_capacity(house, battery):
+    battery.capacity += house.output
+
+def update_score(house, battery):
+    x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
+    # print(x, house.pos_x, house.pos_y, battery.pos_x, battery.pos_y)
+    return x
+
+
+
+# checks if a switch between houses is possible and beneficial
+def check_switch(house, second_house, battery, second_battery):
+    # checks if batteries have enough capacity for the switch
+    if (battery.capacity + house.output) >= second_house.output and second_battery.capacity + second_house.output >= house.output:
+        # checks if total number of cables goes down if switched
+        current_score_house_1 = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
+        current_score_house_2 = abs(second_house.pos_x - second_battery.pos_x) + abs(second_house.pos_y - second_battery.pos_y)
+        new_score_house_1 = abs(house.pos_x - second_battery.pos_x) + abs(house.pos_y - second_battery.pos_y)
+        new_score_house_2 = abs(second_house.pos_x - battery.pos_x) + abs(second_house.pos_y - battery.pos_y)
+        if current_score_house_1 + current_score_house_2 > new_score_house_1 + new_score_house_2:
+            return True
+
+    return False
+
+
+
+def switch_score(house, second_house, battery, second_battery, score):
+
+    refill_capacity(house, battery)
+    refill_capacity(second_house, second_battery)
+    score -= (update_score(house, battery) + update_score(second_house, second_battery))
+    # print(house.battery, second_house.battery)
+    drain_capacity(house, second_battery)
+    drain_capacity(second_house, battery)
+    # print(house.battery, second_house.battery)
+    score += update_score(house, second_battery) + update_score(second_house, battery)
+
+
+    return score
+
+
+def connect_to_battery(house, battery, cable_list):
     # cable loops through x
     connected = 0
-    while cable_list[-1].pos_x != batteries[battery].pos_x:
-        if cable_list[-1].pos_x < batteries[battery].pos_x:
-            cable = Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, battery)
+
+    while cable_list[-1].pos_x != battery.pos_x:
+        if cable_list[-1].pos_x < battery.pos_x:
+            cable = classes.Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, battery)
             cable_list.append(cable)
 
-        elif cable_list[-1].pos_x > batteries[battery].pos_x:
-            cable = Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, battery)
+        elif cable_list[-1].pos_x > battery.pos_x:
+            cable = classes.Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, battery)
             cable_list.append(cable)
 
     # cable loops through y
-    while cable_list[-1].pos_y != batteries[battery].pos_y:
-        if cable_list[-1].pos_y < batteries[battery].pos_y:
+    while cable_list[-1].pos_y != battery.pos_y:
+        if cable_list[-1].pos_y < battery.pos_y:
             cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y + 1, battery)
             cable_list.append(cable)
 
-        elif cable_list[-1].pos_y > batteries[battery].pos_y:
+        elif cable_list[-1].pos_y > battery.pos_y:
             cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y - 1, battery)
             cable_list.append(cable)
 
-    if cable_list[-1].pos_y == batteries[battery].pos_y and cable_list[-1].pos_x == batteries[battery].pos_x:
-        connected += 1
-        batteries[battery].capacity -= houses[house].output
-        # houses[house].output -= houses[house].output
+    # if cable_list[-1].pos_y == battery.pos_y and cable_list[-1].pos_x == battery.pos_x:
+    connected += 1
+    battery.capacity -= house.output
+    house.output = 0
 
-    houses[house].battery = battery
+    # house.battery = battery_nr
+    # print(battery)
+    # print(len(cable_list))
     return cable_list
 
 
 def disconnect_from_battery(house, battery, cable_list):
 
     connected = 0
+    k = 0
+    q = 0
+    house_pointer = deepcopy(house)
 
-    while cable_list[house].pos_x != battery.pos_x:
-        if cable_list[house].pos_x < battery.pos_x:
-            cable = classes.Cable(cable_list[house].pos_x + 1, cable_list[house].pos_y, battery)
-            cable_list.remove(cable)
-            cable_list[house].pos_x += 1
+    # print(house.battery)
+    if house_pointer.pos_x < battery.pos_x:
+        while house_pointer.pos_x != battery.pos_x:
+            loop = k % len(cable_list)
+            if cable_list[loop].pos_x is house_pointer.pos_x and cable_list[loop].pos_y is house_pointer.pos_y:
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                cable_list.remove(cable_list[loop])
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                house_pointer.pos_x += 1
 
-        elif cable_list[house].pos_x > battery.pos_x:
-            cable = classes.Cable(cable_list[house].pos_x - 1, cable_list[house].pos_y, battery)
-            cable_list.remove(cable)
-            cable_list[house].pos_x -= 1
 
-    # cable loops through y
-    while cable_list[house].pos_y != battery.pos_y:
-        if cable_list[house].pos_y < battery.pos_y:
-            cable = classes.Cable(cable_list[house].pos_x, cable_list[house].pos_y + 1, battery)
-            cable_list.remove(cable)
-            cable_list[house].pos_y += 1
+            k += 1
+            # print(loop)
+            # print(len(cable_list))
 
-        elif cable_list[house].pos_y > battery.pos_y:
-            cable = classes.Cable(cable_list[house].pos_x, cable_list[house].pos_y - 1, battery)
-            cable_list.remove(cable)
-            cable_list[house].pos_y -= 1
+    elif house_pointer.pos_x > battery.pos_x:
+        while house_pointer.pos_x != battery.pos_x:
+            loop = k % len(cable_list)
+            if cable_list[loop].pos_x is house_pointer.pos_x and cable_list[loop].pos_y is house_pointer.pos_y:
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                cable_list.remove(cable_list[loop])
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                house_pointer.pos_x -= 1
 
-    if cable_list[house].pos_y == battery.pos_y and cable_list[house].pos_x == battery.pos_x:
-        connected -= 1
-        battery.capacity += house.output
+            k += 1
+
+
+
+
+            # cable loops through y
+    q = 0
+    if house_pointer.pos_y < battery.pos_y:
+        while house_pointer.pos_y != battery.pos_y:
+            loop = k % len(cable_list)
+            if cable_list[loop].pos_x is house_pointer.pos_x and cable_list[loop].pos_y is house_pointer.pos_y:
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                cable_list.remove(cable_list[loop])
+                house_pointer.pos_y += 1
+
+            k += 1
+
+
+
+    elif house_pointer.pos_y > battery.pos_y:
+        while house_pointer.pos_y != battery.pos_y:
+            loop = k % len(cable_list)
+            if cable_list[loop].pos_x is house_pointer.pos_x and cable_list[loop].pos_y is house_pointer.pos_y:
+                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
+                cable_list.remove(cable_list[loop])
+                house_pointer.pos_y -= 1
+
+            k += 1
+
+
+    # if house_pointer.pos_y == battery.pos_y and house_pointer.pos_x == battery.pos_x:
+    connected -= 1
+    battery.capacity += house.output
 
 
 
 
 def switch_houses(house, second_house, battery, second_battery, cable_list, batteries):
+
     connected = 0
 
-    house_pointer = house
-    battery_pointer = battery
-    full_houses = readcsv("wijk1_huizen.csv")
-
-    if battery.capacity + house.output >= second_house.output and second_battery.capacity + second_house.output >= house.output and battery != second_battery:
-
-    # disconnects battery
-    # cable loops through x
-        change = cable_list.remove
-        k = 0
-        for i in range(2):
-            for j in range(2):
-                while house_pointer.pos_x != battery_pointer.pos_x:
-                    if house_pointer.pos_x < battery_pointer.pos_x:
-                        while house_pointer.pos_x != battery_pointer.pos_x:
-                            if cable_list[k].pos_x is house_pointer.pos_x and cable_list[k].pos_y is house_pointer.pos_y:
-                                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
-                                change(cable_list[k])
-                                house_pointer.pos_x += 1
-                                if cable_list[k].pos_x is not house_pointer.pos_x:
-                                    break
-                            k += 1
-                            if k == len(cable_list):
-                                k = 0
-
-                    elif house_pointer.pos_x > battery_pointer.pos_x:
-                        while house_pointer.pos_x != battery_pointer.pos_x:
-                            if cable_list[k].pos_x is house_pointer.pos_x and cable_list[k].pos_y is house_pointer.pos_y:
-                                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
-                                change(cable_list[k])
-                                house_pointer.pos_x -= 1
-                                if cable_list[k].pos_x is not house_pointer.pos_x:
-                                    break
-                            k += 1
-                            if k == len(cable_list):
-                                k = 0
-
-            # cable loops through y
-                while house_pointer.pos_y != battery_pointer.pos_y:
-                    if house_pointer.pos_y < battery_pointer.pos_y:
-                        while house_pointer.pos_y != battery_pointer.pos_y:
-                            if cable_list[k].pos_x is house_pointer.pos_x and cable_list[k].pos_y is house_pointer.pos_y:
-                                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
-                                change(cable_list[k])
-                                house_pointer.pos_y += 1
-                                if cable_list[k].pos_y is not house_pointer.pos_y:
-                                    break
-                            k += 1
-                            if k == len(cable_list):
-                                k = 0
-
-                    elif house_pointer.pos_y > battery_pointer.pos_y:
-                        while house_pointer.pos_y != battery_pointer.pos_y:
-                            if cable_list[k].pos_x is house_pointer.pos_x and cable_list[k].pos_y is house_pointer.pos_y:
-                                # print(cable_list[k].pos_x, house_pointer.pos_x, cable_list[k].pos_y, house_pointer.pos_y)
-                                change(cable_list[k])
-                                house_pointer.pos_y -= 1
-                                if cable_list[k].pos_y is not house_pointer.pos_y:
-                                    break
-                            k += 1
-                            if k == len(cable_list):
-                                k = 0
-
-                if house_pointer.pos_y == battery_pointer.pos_y and house_pointer.pos_x == battery_pointer.pos_x and i is 0:
-                    connected -= 1
-                    # print("disconnected", house_pointer.pos_x, battery_pointer.pos_x, house_pointer.pos_y, battery_pointer.pos_y)
-                    if j is 0:
-                        battery.capacity += house.output
-                        battery_pointer = second_battery
-                        house_pointer = second_house
-                    elif j is 1:
-                        second_battery.capacity += second_house.output
-                        house_pointer = house
-                        change = cable_list.append
+    # full_houses = readcsv("wijk1_huizen.csv")
+    # matchCount=0
+    # for a in full_houses:
+    #     if a.pos_x == house.pos_x and a.pos_y == house.pos_y:
+    #         house.output = a.output
+    #         matchCount+=1
+    #     elif a.pos_x == second_house.pos_x and a.pos_y == second_house.pos_y:
+    #         second_house.output = a.output
+    # if matchCount==0:
+    #         print("ERROR")
+    #         # print(house.pos_x, house.pos_y)
 
 
-                elif house_pointer.pos_y == battery_pointer.pos_y and house_pointer.pos_x == battery_pointer.pos_x and i is 1:
-                    connected += 1
-                    # print("connected", house_pointer.pos_x, battery_pointer.pos_x, house_pointer.pos_y, battery_pointer.pos_y)
-                    if j is 0:
-                        second_battery.capacity -= house.output
-                        battery_pointer = battery
-                        house_pointer = second_house
-                    elif j is 1:
-                        battery.capacity -= second_house.output
 
+
+    if battery.capacity + house.output - second_house.output > 0 and second_battery.capacity + second_house.output - house.output > 0:
+        # print(house.output, second_house.output, battery.capacity, second_battery.capacity)
+        disconnect_from_battery(house, battery, cable_list)
+        disconnect_from_battery(second_house, second_battery, cable_list)
+        reserve = house.battery
+        # print(house.output, second_house.output, battery.capacity, second_battery.capacity)
+        connect_to_battery(house, second_battery, cable_list, second_house.battery)
+        connect_to_battery(second_house, battery, cable_list, reserve)
+        # print(house.output, second_house.output, battery.capacity, second_battery.capacity)
+        # print("switched")
 
         return True
     else:
         return False
 
 
+
+
 def distance_sort(batteries, houses):
     distances = []
+    distance = {}
     for j in range(len(houses)):
-        distance = {}
         for i in range(len(batteries)):
             dis = (abs(houses[j].pos_x - batteries[i].pos_x) + abs(houses[j].pos_y - batteries[i].pos_y))
             distance[i] = dis
@@ -261,6 +256,7 @@ def sort_houses(houses):
     sorted_distance = sorted(distance.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_distance
+
 
 
 def sort_on_battery_distance(batteries, houses):
