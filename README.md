@@ -17,10 +17,11 @@ c) Relocate the batteries and try to realise a better result.
 
 The company SmartBatteryCompany has recently developed three types of batteries, with different capacities and prices.
 
-Batterytype 	Capacity 	Price
-PowerStar 	    450 	   900
-Imerse-II 	    900 	  1350
-Imerse-III 	   1800 	  1800
+| Batterytype  | Capacity 	| Price |
+| -----------  | :--------: | :---: |
+| PowerStar 	 |    450 	  |  900  |
+| Imerse-II 	 |    900 	  | 1350  |
+| Imerse-III 	 |   1800 	  | 1800  |
 
 Try to achieve a better configuration for the district with these batteries, you can use as many as you want and they can be located on each gridpoint without a house.
 
@@ -31,7 +32,9 @@ The project can be retrieved by copying the code in the files, and installing th
 
 ## Prerequisites
 The packages used in this project are:
-- mathplotlib.pyplot is a library which produces figures in a variety of formats, helps to represent the way the houses are                         connected to the batteries in a plot. To install matplotlib.pyplot, type the following in your terminal:
+- mathplotlib.pyplot is a library which produces figures in a variety of formats, helps to represent the way the houses are                             connected to the batteries in a plot. To install matplotlib.pyplot, type the following in your terminal:
+  python -mpip install -U pip
+  python -mpip install -U matplotlib
 
 # Algorithms
 The following algorithms are set up to retrieve the most optimal solution:
