@@ -47,12 +47,17 @@ The packages used in this project are:
 
 # Algorithms
 The following algorithms are set up to retrieve the most optimal solution:
-- Cable list
-- Cable list sneller en korter
-- Verre huizen eerst
-- Buiten naar binnen
-- Hillclimber nieuw
-- Batterijen plaatsen met random start
-- Batterijen plaatsen mbv hillclimber
-- Batterijen plaatsen met combinatie van random restart en hillclimber
-- Batterij allerlei
+- To place the cables on the grid:
+
+   - Cable list
+   - Cable list sneller en korter
+   - Verre huizen eerst
+   - Buiten naar binnen
+   - Hillclimber nieuw
+   
+- With replacing the batteries:
+
+   - Batterijen plaatsen met random start
+   - Batterijen plaatsen mbv hillclimber
+   - Batterijen plaatsen met combinatie van random restart en hillclimber
+   - Batterij allerlei
