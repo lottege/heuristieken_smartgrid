@@ -105,21 +105,21 @@ def connect_to_battery(house, battery, cable_list):
 
     while cable_list[-1].pos_x != battery.pos_x:
         if cable_list[-1].pos_x < battery.pos_x:
-            cable = classes.Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, battery)
+            cable = classes.Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, house.battery)
             cable_list.append(cable)
 
         elif cable_list[-1].pos_x > battery.pos_x:
-            cable = classes.Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, battery)
+            cable = classes.Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, house.battery)
             cable_list.append(cable)
 
     # cable loops through y
     while cable_list[-1].pos_y != battery.pos_y:
         if cable_list[-1].pos_y < battery.pos_y:
-            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y + 1, battery)
+            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y + 1, house.battery)
             cable_list.append(cable)
 
         elif cable_list[-1].pos_y > battery.pos_y:
-            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y - 1, battery)
+            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y - 1, house.battery)
             cable_list.append(cable)
 
     # if cable_list[-1].pos_y == battery.pos_y and cable_list[-1].pos_x == battery.pos_x:
@@ -259,8 +259,6 @@ def sort_houses(houses):
     sorted_distance = sorted(distance.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_distance
-
-
 
 
 def sort_on_battery_distance(batteries, houses):
