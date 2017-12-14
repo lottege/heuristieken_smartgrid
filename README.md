@@ -33,8 +33,17 @@ The project can be retrieved by copying the code in the files, and installing th
 ## Prerequisites
 The packages used in this project are:
 - mathplotlib.pyplot is a library which produces figures in a variety of formats, helps to represent the way the houses are                             connected to the batteries in a plot. To install matplotlib.pyplot, type the following in your terminal:
--- python -mpip install -U pip
--- python -mpip install -U matplotlib
+
+   - python -mpip install -U pip
+   - python -mpip install -U matplotlib
+   
+- cycler
+- numpy
+- pyparsing
+- pytz
+- six
+- python-dateutil
+
 
 # Algorithms
 The following algorithms are set up to retrieve the most optimal solution:
