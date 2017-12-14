@@ -1,8 +1,10 @@
 '''
  / connects houses to the closest battery if it has enough capacity, starting with the furthest houses from the centre
 '''
-import helpers2
 from random import randint
+
+import helpers2
+
 # import visualisatie as vis
 
 
@@ -12,7 +14,7 @@ batteries = []
 
 previous = 10000
 score = 8000
-for a in range(100):
+for a in range(1000):
     batteries = []
     for i in range(9):
         bat = helpers2.Battery(randint(0, 50), randint(0, 50), 900)
@@ -34,7 +36,7 @@ print("hoeraa")
 
 hill = []
 tries = 0
-for b in range(100):
+for b in range(1000):
     # while len(hill) <= previous:
     tries += 1
     if (tries % 100) == 0:

@@ -36,3 +36,6 @@ requirements.txt er in stoppen (even googlen)
 experimentatie hoe we het nu hebben zegt niks, we hebben geen resultaten, geen tests. Hier kunnen we de algoritmes in testen,
 kleine hypotheses erbij.
 Algoritme met duidelijke kopjes
+
+presentatie:
+stapjes van 1, 2, 3, 4, en 5 enz met elkaar vergelijken en welke score je krijgt als het random stapjes zijn

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def visualisation(houses, batteries, cables):
     # houses = houses
     # batteries = batteries

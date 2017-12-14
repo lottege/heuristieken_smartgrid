@@ -295,19 +295,35 @@ def connection(sorted_houses, distance, batteries, houses):
     return cl
 
 
+def connection_score(sorted_houses, distance, batteries, houses):
+    score = 150
+    for house in sorted_houses:
+        for key in distance[house[0]]:
+            if match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
+                score += update_score(houses[house[0]], batteries[key[0]])
+                break
+    return score
+
+
 def reset_batteries(batteries):
     for bat in batteries:
         bat.capacity = 1507.0
 
 
 def swap(battery, batteries):
-    # amount = random(1-5)
+    # amount = 5
+    amount = randint(1, 5)
     direction = randint(1, len(batteries)-1)
     if direction == 1:
-        battery.pos_x += 1
+        battery.pos_x += amount
     elif direction == 2:
-        battery.pos_x -= 1
+        battery.pos_x -= amount
     elif direction == 3:
-        battery.pos_y += 1
+        battery.pos_y += amount
     elif direction == 4:
-        battery.pos_y -= 1
+        battery.pos_y -= amount
+
+
+def update_score(house, battery):
+    x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
+    return x

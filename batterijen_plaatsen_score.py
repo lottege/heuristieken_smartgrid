@@ -6,19 +6,18 @@ from random import randint
 import helpers2
 
 # import visualisatie as vis
-
+final_houses = []
+winner = []
 winwin = []
 randwin = []
-for loop in range(10):
+for loop in range(1):
     batteries = helpers2.readtxt("wijk1_batterijen.txt")
     houses = helpers2.readcsv("wijk1_huizen.csv")
-    final_houses = []
-    winner = []
 
     previous = 10000
     score = 8000
     # tries = 0
-    for a in range(500):
+    for a in range(1000):
         # tries += 1
         # if (tries % 100) == 0:
             # print(tries)
@@ -29,26 +28,27 @@ for loop in range(10):
 
         distance = helpers2.distance_sort(batteries, houses)
         sorted_houses = helpers2.sort_houses(houses)
-        cl = helpers2.connection(sorted_houses, distance, batteries, houses)
+        score = helpers2.connection_score(sorted_houses, distance, batteries, houses)
 
-        if len(cl) < previous:
-            # print('yay')
-            previous = len(cl)
+        if score < previous:
+            cl = helpers2.connection(sorted_houses, distance, batteries, houses)
+            print("score", score)
+            print("len(cl):", len(cl))
+            print("previous", previous)
+            previous = score
             battery_locations = []
             for bat in batteries:
                 battery = helpers2.Battery(bat.pos_x, bat.pos_y, bat.capacity)
                 battery_locations.append(battery)
             final_houses = sorted_houses
             winner = cl
+
     randwin.append(len(winner))
 
-
-    # print("hoeraa")
-    # print(len(winner))
     hill = []
     # tries = 0
     final_batteries = battery_locations
-    for b in range(500):
+    for b in range(1):
         # while len(hill) <= previous:
         #     tries += 1
         #     if (tries % 100) == 0:
@@ -73,7 +73,6 @@ for loop in range(10):
                 winner = hill
                 # print(len(winner))
 
-    # print(previous)
     print(len(winner))
     # price = (len(winner) * 9) + (len(batteries) * 5000)
     # print(price)
@@ -81,6 +80,7 @@ for loop in range(10):
 
     winwin.append(len(winner))
 
-print(winwin)
-print(float(sum(winwin))/len(winwin))
-print(float(sum(randwin))/len(randwin))
+# print(winwin)
+# print(float(sum(winwin))/len(winwin))
+# print(float(sum(randwin))/len(randwin))
+
