@@ -82,14 +82,18 @@ def check_switch(house, second_house, battery, second_battery):
 
 def switch_score(house, second_house, battery, second_battery, score):
 
+    # print(battery.capacity)
     refill_capacity(house, battery)
     refill_capacity(second_house, second_battery)
+    # print(battery.capacity)
     score -= (update_score(house, battery) + update_score(second_house, second_battery))
     # print(house.battery, second_house.battery)
     drain_capacity(house, second_battery)
     drain_capacity(second_house, battery)
+    # print(battery.capacity)
     # print(house.battery, second_house.battery)
     score += update_score(house, second_battery) + update_score(second_house, battery)
+    # print(score)
 
 
     return score
@@ -120,7 +124,6 @@ def connect_to_battery(house, battery, cable_list):
 
     # if cable_list[-1].pos_y == battery.pos_y and cable_list[-1].pos_x == battery.pos_x:
     connected += 1
-    battery.capacity -= house.output
     house.output = 0
 
     # house.battery = battery_nr
@@ -256,6 +259,7 @@ def sort_houses(houses):
     sorted_distance = sorted(distance.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_distance
+
 
 
 
