@@ -4,12 +4,11 @@
  / 2: connecting cables all together
  / plot met mat plot lib
 '''
-import experimentimportTXT
-# import visualisation as vis
+
+import visualisatie as vis
 import classes
 import helpers
 import random
-# from buitennaarbinnen import cost_bb
 
 cable_list = []
 new_cable_list = []
@@ -51,8 +50,8 @@ for a in range(10):
 
     score = 150
     cable_list = []
-    batteries = experimentimportTXT.readtxt("wijk1_batterijen.txt")
-    houses = experimentimportTXT.readcsv("wijk1_huizen.csv")
+    batteries = helpers.readtxt("wijk1_batterijen.txt")
+    houses = helpers.readcsv("wijk1_huizen.csv")
     random_houses = []
     while len(random_houses) < len(houses):
         random_house = random.choice(houses)
@@ -110,7 +109,6 @@ for a in range(10):
 #     print(cable.pos_x, cable.pos_y)
 
 
-
 print("length", len(best_list))
 print("best score: ", best_score)
-# # vis.visualisation(houses, batteries, new_cable_list)
+vis.visualisation(houses, batteries, best_list)
