@@ -33,14 +33,20 @@ The project can be retrieved by copying the code in the files, and installing th
 ## Prerequisites
 The packages used in this project are:
 - mathplotlib.pyplot is a library which produces figures in a variety of formats, helps to represent the way the houses are                             connected to the batteries in a plot. To install matplotlib.pyplot, type the following in your terminal:
-- python -mpip install -U pip
-- python -mpip install -U matplotlib
+-- python -mpip install -U pip
+-- python -mpip install -U matplotlib
 
 # Algorithms
 The following algorithms are set up to retrieve the most optimal solution:
-- Hillclimber with random start 
+- Cable list
+- Cable list sneller en korter
+- Verre huizen eerst
 - Buiten naar binnen
-- Hillclimber
+- Hillclimber nieuw
+- Batterijen plaatsen met random start
+- Batterijen plaatsen mbv hillclimber
+- Batterijen plaatsen met combinatie van random restart en hillclimber
+- Batterij allerlei
 
 ## Hillclimber with random start
 The algorithm each time starts with a random sequence of houses of a certain district. The random sequence of houses of a certain district are connected to the batteries. Each time looking for the optimal solution, by connecting the houses to the batteries in a certain way. Then comparing the result to the previous result and save that result with the lowest cost.
