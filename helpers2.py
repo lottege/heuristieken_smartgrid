@@ -291,6 +291,7 @@ def connection(sorted_houses, distance, batteries, houses):
                 cable_list.append(cable)
                 cl = connect_to_battery(house[0], key[0], cable_list, batteries, houses)
                 houses[house[0]].battery = key[0]
+                batteries[key[0]].number = key[0]
                 connected += 1
                 break
     return cl
@@ -305,6 +306,7 @@ def connection_score(sorted_houses, distance, batteries, houses):
                 score += update_score(houses[house[0]], batteries[key[0]])
                 connected += 1
                 houses[house[0]].battery = key[0]
+                batteries[key[0]].number = key[0]
                 break
     return score
 
@@ -332,16 +334,3 @@ def update_score(house, battery):
     x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
     battery.capacity -= house.output
     return x
-
-def price_calc(final_batteries, score):
-    price = 0
-    for bat in final_batteries:
-        if bat.type == 0:
-            price += 900
-        elif bat.type == 1:
-            price += 1350
-        else:
-            price += 1800
-    price += score
-
-    return price
