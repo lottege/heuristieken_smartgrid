@@ -24,6 +24,23 @@ class Battery:
             return False
 
 
+class Battery_type:
+    number = 0
+
+    def __init__(self, pos_x, pos_y, capacity, type):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.capacity = capacity
+        self.type = type
+        Battery.number += 1
+
+    def match_with_house(self, house):
+        if house.output < self.capacity:
+            return True
+        else:
+            return False
+
+
 class House:
     number = 0
 
@@ -141,8 +158,6 @@ def disconnect_from_battery(house, battery, cable_list):
     if cable_list[house].pos_y == battery.pos_y and cable_list[house].pos_x == battery.pos_x:
         connected -= 1
         battery.capacity += house.output
-
-
 
 
 def switch_houses(house, second_house, battery, second_battery, cable_list, batteries):
@@ -297,12 +312,14 @@ def connection(sorted_houses, distance, batteries, houses):
 
 def connection_score(sorted_houses, distance, batteries, houses):
     score = 150
+    connected = 0
     for house in sorted_houses:
         for key in distance[house[0]]:
             if match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
                 score += update_score(houses[house[0]], batteries[key[0]])
+                connected += 1
                 break
-    return score
+    return score, connected
 
 
 def reset_batteries(batteries):
@@ -311,8 +328,8 @@ def reset_batteries(batteries):
 
 
 def swap(battery, batteries):
-    # amount = 5
-    amount = randint(1, 5)
+    amount = 1
+    # amount = randint(1, 5)
     direction = randint(1, len(batteries)-1)
     if direction == 1:
         battery.pos_x += amount
@@ -326,4 +343,29 @@ def swap(battery, batteries):
 
 def update_score(house, battery):
     x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
+    battery.capacity -= house.output
     return x
+
+
+def reset_batteries_type(batteries):
+    for bat in batteries:
+        if bat.type == 0:
+            bat.capacity = 450
+        elif bat.type == 1:
+            bat.capacity = 900
+        else:
+            bat.capacity = 1800
+
+
+def price_calc(final_batteries, score):
+    price = 0
+    for bat in final_batteries:
+        if bat.type == 0:
+            price += 900
+        elif bat.type == 1:
+            price += 1350
+        else:
+            price += 1800
+    price += score
+
+    return price
