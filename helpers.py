@@ -126,7 +126,7 @@ def connect_to_battery(house, batteries, cable_list):
     # cable loops through x
     connected = 0
 
-    cable = house.pos_x, house.pos_y, house.battery
+    cable = classes.Cable(house.pos_x, house.pos_y, house.battery)
     cable_list.append(cable)
 
     house_pointer = deepcopy(house)
