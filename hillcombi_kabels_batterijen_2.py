@@ -74,33 +74,35 @@ for b in range(100):
             final_batteries.append(battery)
         final_houses = sorted_houses
         winner = hill
-# for battery in batteries:
-#     print(battery.number, battery.number)
+
+for battery in battery_locations:
+    print(battery.number, battery.pos_x, battery.pos_y, battery.capacity)
 
         # print(len(winner))
 
 print("random en hill batt winner:", len(winner))
 
-
+for house in houses:
+    if house.output > 0:
+        print(house.number, house.output)
 
 
 # for battery in batteries:
 #     print(battery.number, battery.pos_x, battery.pos_y, battery.capacity)
 
 cable_list = []
-new_cable_list = []
 connected = 0
-tries = 25000
+tries = 10000
 i = 0
 q = 0
 score = 150
 
-old_cost = 6000 * 9
-new_cost = old_cost
 
-batteries = final_batteries
-for battery in range(len(batteries)):
-    batteries[battery].number = battery
+batteries = battery_locations
+
+for battery in batteries:
+    print(battery.number, battery.pos_x, battery.pos_y, battery.capacity)
+print(connected)
 helpers2.reset_batteries(batteries)
 
 
@@ -111,6 +113,8 @@ for house in range(len(houses)):
     helpers.sure_drain_capacity(houses[house], batteries[houses[house].battery])
     a += x
     print(house, houses[house].battery, x, a)
+
+
 
 
 # # Option 1: places cables alongside others (longer dict, no dict checks)
@@ -156,7 +160,7 @@ for z in range(tries):
 
 
 
-        for m in range(1):
+        for m in range(5 % q):
             if helpers.check_switch(a, b, batteries[a.battery], batteries[b.battery]):
                 # print("batteries before:", a.battery, b.battery)
                 score = helpers.switch_score(a, b, batteries[a.battery], batteries[b.battery], score)
@@ -179,7 +183,11 @@ for house in houses:
     # print(batteries[battery].capacity)
 
 
-
+for battery in batteries:
+    print(battery.capacity)
+for house in houses:
+    if house.output > 0:
+        print(house.number, house.output)
 
 x=0
 a = 150
