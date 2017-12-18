@@ -7,6 +7,7 @@ import csv
 import operator
 import classes
 from copy import deepcopy
+import random
 
 Cable = classes.Cable
 House = classes.House
@@ -22,7 +23,6 @@ def readtxt(txtfile):
             parts = row[0].split(',')
             battery = Battery(int(parts[0].strip()[1:]), int(parts[1].strip()), float(row[1].strip()))
             battery_list.append(battery)
-
         return battery_list
 
 
@@ -48,16 +48,29 @@ def match_with_house(house, battery):
 def drain_capacity(house, battery):
     if battery.capacity - house.output > 0:
         battery.capacity -= house.output
-        house.battery = battery.number
         return True
     else:
-        print("Doesn't fit")
+        # print("Doesn't fit")
         return False
+
+def sure_drain_capacity(house, battery):
+    battery.capacity -= house.output
+
+def brute_drain_capacity(house, battery):
+    battery.capacity -= house.output
+    house.battery = battery.number
+
 
 def refill_capacity(house, battery):
     battery.capacity += house.output
 
 def update_score(house, battery):
+    x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
+    house.battery = battery.number
+    # print(x, house.pos_x, house.pos_y, battery.pos_x, battery.pos_y)
+    return x
+
+def update_battery_score(house, battery):
     x = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
     # print(x, house.pos_x, house.pos_y, battery.pos_x, battery.pos_y)
     return x
@@ -67,12 +80,12 @@ def update_score(house, battery):
 # checks if a switch between houses is possible and beneficial
 def check_switch(house, second_house, battery, second_battery):
     # checks if batteries have enough capacity for the switch
-    if (battery.capacity + house.output) >= second_house.output and second_battery.capacity + second_house.output >= house.output:
+    if (battery.capacity + house.output - second_house.output) > 0 and (second_battery.capacity + second_house.output - house.output) > 0:
         # checks if total number of cables goes down if switched
-        current_score_house_1 = abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
-        current_score_house_2 = abs(second_house.pos_x - second_battery.pos_x) + abs(second_house.pos_y - second_battery.pos_y)
-        new_score_house_1 = abs(house.pos_x - second_battery.pos_x) + abs(house.pos_y - second_battery.pos_y)
-        new_score_house_2 = abs(second_house.pos_x - battery.pos_x) + abs(second_house.pos_y - battery.pos_y)
+        current_score_house_1 = check_score(house, battery)
+        current_score_house_2 = check_score(second_house, second_battery)
+        new_score_house_1 = check_score(house, second_battery)
+        new_score_house_2 = check_score(second_house, battery)
         if current_score_house_1 + current_score_house_2 > new_score_house_1 + new_score_house_2:
             return True
 
@@ -82,47 +95,66 @@ def check_switch(house, second_house, battery, second_battery):
 
 def switch_score(house, second_house, battery, second_battery, score):
 
+    # print(battery, second_battery)
+    # first_score = score
     # print(battery.capacity)
     refill_capacity(house, battery)
     refill_capacity(second_house, second_battery)
     # print(battery.capacity)
-    score -= (update_score(house, battery) + update_score(second_house, second_battery))
+    score -= abs(update_score(house, battery)) + abs(update_score(second_house, second_battery))
     # print(house.battery, second_house.battery)
     drain_capacity(house, second_battery)
     drain_capacity(second_house, battery)
     # print(battery.capacity)
     # print(house.battery, second_house.battery)
-    score += update_score(house, second_battery) + update_score(second_house, battery)
+    score += abs(update_score(house, second_battery)) + abs(update_score(second_house, battery))
     # print(score)
+    # second_score = score
+    house.battery = second_battery.number
+    second_house.battery = battery.number
+    # print(battery, second_battery)
+    # print(("must be equal"), first_score - second_score, check_score(house, battery) + check_score(second_house, second_battery) - check_score(house, second_battery) - check_score(second_house, battery))
 
 
     return score
 
+def check_score(house, battery):
+    return abs(house.pos_x - battery.pos_x) + abs(house.pos_y - battery.pos_y)
 
-def connect_to_battery(house, battery, cable_list):
+
+def connect_to_battery(house, batteries, cable_list):
     # cable loops through x
     connected = 0
 
-    while cable_list[-1].pos_x != battery.pos_x:
-        if cable_list[-1].pos_x < battery.pos_x:
-            cable = classes.Cable(cable_list[-1].pos_x + 1, cable_list[-1].pos_y, house.battery)
+    cable = house.pos_x, house.pos_y, house.battery
+    cable_list.append(cable)
+
+    house_pointer = deepcopy(house)
+
+    while house_pointer.pos_x != batteries[house.battery].pos_x:
+        if house_pointer.pos_x < batteries[house.battery].pos_x:
+            cable = classes.Cable(house_pointer.pos_x + 1, house_pointer.pos_y, house.battery)
+            house_pointer.pos_x += 1
             cable_list.append(cable)
 
-        elif cable_list[-1].pos_x > battery.pos_x:
-            cable = classes.Cable(cable_list[-1].pos_x - 1, cable_list[-1].pos_y, house.battery)
+        elif house_pointer.pos_x > batteries[house.battery].pos_x:
+            cable = classes.Cable(house_pointer.pos_x - 1, house_pointer.pos_y, house.battery)
+            house_pointer.pos_x -= 1
             cable_list.append(cable)
 
     # cable loops through y
-    while cable_list[-1].pos_y != battery.pos_y:
-        if cable_list[-1].pos_y < battery.pos_y:
-            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y + 1, house.battery)
+    while house_pointer.pos_y != batteries[house.battery].pos_y:
+        if house_pointer.pos_y < batteries[house.battery].pos_y:
+            cable = Cable(house_pointer.pos_x, house_pointer.pos_y + 1, house.battery)
+            house_pointer.pos_y += 1
             cable_list.append(cable)
 
-        elif cable_list[-1].pos_y > battery.pos_y:
-            cable = Cable(cable_list[-1].pos_x, cable_list[-1].pos_y - 1, house.battery)
+        elif house_pointer.pos_y > batteries[house.battery].pos_y:
+            cable = Cable(house_pointer.pos_x, house_pointer.pos_y - 1, house.battery)
+            house_pointer.pos_y -= 1
             cable_list.append(cable)
 
-    # if cable_list[-1].pos_y == battery.pos_y and cable_list[-1].pos_x == battery.pos_x:
+    # if house_pointer.pos_y == battery.pos_y and house_pointer.pos_x == battery.pos_x:
     connected += 1
     house.output = 0
 
@@ -286,10 +318,22 @@ def connection(sorted_houses, distance, batteries, houses):
             if match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
                 cable = Cable(houses[house[0]].pos_x, houses[house[0]].pos_y, key[0])
                 cable_list.append(cable)
-                cl = connect_to_battery(house[0], key[0], cable_list, batteries, houses)
+                cl = connect_to_battery(house, key, cable_list)
                 connected += 1
                 break
     return cl
+
+def connection_score(sorted_houses, distance, batteries, houses):
+    score = 150
+    connected = 0
+    for house in sorted_houses:
+        for key in distance[house[0]]:
+            if match_with_house(houses[house[0]], batteries[key[0]]) and houses[house[0]].output > 0:
+                score += update_score(houses[house[0]], batteries[key[0]])
+                connected += 1
+                break
+    return score
+
 
 
 def reset_batteries(batteries):
